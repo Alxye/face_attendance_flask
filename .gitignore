@@ -1,4 +1,3 @@
 /.idea/
 __pycache__
 /AI_model/facenet/weights/
-/AI_model/mtcnn/weights/
