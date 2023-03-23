@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="/static/bootstrap.css">   <!--引入bootstrap.css 基于flask需要使用全路径-->
+</head>
+<body>
+ 
+<!--<button type="button" data-toggle="modal" data-target="#edit-modal">Launch modal</button>-->
+ 
+    <div class="container">         <!-- 使用bootstrap的container容器 -->
+        <div class="row">             <!-- 使用bootstrap的 row -->
+            <div class="col-md-3">     <!-- 使用bootstrap布局 col-md-3 占3份 ，总共12份 -->
+            </div>
+            <div class="col-md-9">
+                <lable>name:</lable>
+                <input type="text" class="user-input">
+                <lable>age:</lable>
+                <input type="text" class="age-input">
+                <button type="button" class="btn btn-primary" id="add-button">添加</button>
+                <table id="user-list" class="table"></table>
+            </div>
+        </div>
+    </div>
+ 
+<!-- 基于bootstrap修改的的模态对话框-->
+<div class="modal fade" tabindex="-1" role="dialog" id="edit-modal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">修改年龄</h4>
+      </div>
+      <div class="modal-body">
+          <input type="text" id="edit-name1">
+          <input type="text" id="edit-age1">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="save-age">Save changes</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+ 
+<div class="container">
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div id="main" class="col-md-9" style="width: 600px;height:300px;"></div>    <!-- 用来存放echars得到的图形的位置 -->
+    </div>
+</div>
+ 
+    <!-- 引入各种js ，路径全路径 -->
+    <script src="/static/jquery.js"></script>
+    <script src="/static/bootstrap.js"></script>
+    <script src="/static/echarts.js"></script>
+    <script>
+        //用于展示页面的函数
+        function getList() {
+            init_chart();       // 给予ecahrts的绘图
+            $.getJSON('/userlist', function (res) {         //请求userlist接口获取数据
+                var str = "";
+                $.each(res, function (i, v) {
+                    str += "<tr>";                        // str拼接出一个表格
+                    str += "<td>" + v[0] + "</td>";
+                    str += "<td>" + v[1] + "</td>";
+                    str += '<td> <button data-name="' + v[0] + '" class="delete-btn">delete</button></td>'
+                    str += '<td> <button data-name="' + v[0] +'" data-age="'+ v[1] + '" class="edit-btn">edit</button></td>'
+                    str += "</tr>";
+                });
+ 
+                $('#user-list').html(str)      //找到id 为 user-list的设置他的html为str
+            })
+        }
+ 
+        getList();
+ 
+        $(document).on('click','.delete-btn',function(){     //点击delete按钮的事件函数
+            var name = $(this).attr('data-name');    // 获取点击按钮时 input标签内data-name属性的值，该值在上面的str拼接中设置了
+            $.get('/delete?name=' + name,function(res){      // 发生get请求
+                if (res == "ok"){
+                    getList();
+                }
+            })
+        });
+ 
+        var gName;
+        $(document).on('click','.edit-btn',function(){      // 点击edit按钮的事件函数
+            var age = $(this).attr('data-age');
+            var name = $(this).attr('data-name');
+            $('#edit-age1').val(age);      // 给id 为 edit-age1 设置 列表中的 值  ，即模态对话框中设置值
+            $('#edit-name1').val(name);
+            $('#edit-modal').modal('show');    // 显示模态对话框
+        });
+ 
+        $("#add-button").on('click',function(){    //点击添加按钮的事件
+            var name = $('.user-input').val();      //获取值
+            var age = $('.age-input').val();
+            gName = name;
+            if(name && age){     // 输入框有输入name和age
+                $.get('/add?name=' + name +'&age='+age,function(res){   //发生请求
+                    if(res=='ok'){
+                        $('.user-input').val('');    //添加成功把输入框亲空
+                        $('.age-input').val('');
+                        getList();          // 打印列表
+                    }
+                })
+            }
+            else{
+                alert("please input username and age!");   // 输入框中没输入name 或 age 直接 alter一个报错
+            }
+        });
+ 
+//        $(document).on('click','#save-age',function(res){
+         $('#save-age').on('click',function(){     // 模态对话框中修改值后点击save的事件
+            var age = $('#edit-age1').val();
+            var name = $('#edit-name1').val();
+             $.get('/edit?name='+name+'&age='+age,function(res){
+                 if (res == "ok"){
+                     $("#edit-modal").modal('hide');   // 隐藏模态对话框
+                     getList();     //显示列表
+                 }
+             })
+        });
+ 
+    function init_chart() {     // 封装了echarts 的函数
+        $.getJSON('/chartdata', function (res) {
+            var myChart = echarts.init(document.getElementById('main'));
+            // 指定图表的配置项和数据
+            option = {
+                title: {
+                    text: '用户年龄分布图',
+                    subtext: 'auther：fanxuanhui',
+                    x: 'center'
+                },
+                tooltip: {
+                    trigger: 'item',
+                    formatter: "{a} <br/>{b} : {c} ({d}%)"
+                },
+                legend: {
+                    orient: 'vertical',
+                    left: 'left',
+                    data: res.title   //list
+                },
+                series: [
+                    {
+                        name: '年龄占比',
+                        type: 'pie',
+                        radius: '55%',
+                        center: ['50%', '60%'],
+                        data: res.data,   //list 中包含字典
+                        itemStyle: {
+                            emphasis: {
+                                shadowBlur: 10,
+                                shadowOffsetX: 0,
+                                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                            }
+                        }
+                    }
+                ]
+            };
+            // 使用刚指定的配置项和数据显示图表。
+            myChart.setOption(option);
+        })
+    }
+ 
+    </script>
+</body>
+</html>
