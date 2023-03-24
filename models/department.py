@@ -25,9 +25,13 @@ class Department(db.Model):
         return '<Department %s>' % self.department_id
 
     # 用于新建新部门用？
-    def __init__(self, department_name, notice):
+    def __init__(self, department_name, notice='',clock_in_start="00:00:00",clock_in_end='23:59:59',clock_out_start='00:00:00',clock_out_end='23:59:59'):
         self.department_name = department_name
         self.notice = notice
+        self.clock_in_start = clock_in_start
+        self.clock_in_end = clock_in_end
+        self.clock_out_start = clock_out_start
+        self.clock_out_end = clock_out_end
 
     # def set_password(self, password):
     #     return generate_password_hash(password)

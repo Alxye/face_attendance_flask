@@ -35,6 +35,7 @@ class Detector:
             boxes = run_first_stage(image, self.pnet, scale=s, threshold=self.thresholds[0])
             bounding_boxes.append(boxes)
         bounding_boxes = [i for i in bounding_boxes if i is not None]
+        # print(bounding_boxes)
         if len(bounding_boxes) != 0:
             bounding_boxes = np.vstack(bounding_boxes)
         else:

@@ -5,7 +5,7 @@ import time
 from models.user import *
 from api.attendance import *
 from api.AI_model import extract,calc_similarity
-from api.department import Query_department_attendance_time
+from api.department import *
 from api.user import User_id_for_faceinfo
 from datetime import date
 import datetime
@@ -20,7 +20,9 @@ def search_today_record():
     if request.method == 'POST':
         date_ = request.json.get('date')
         staffID = request.json.get('staffID')
+        departmentID = request.json.get('departmentID')
         record = Attendance_search_today(staffID, date_)
+        notice = Query_department_notice(departmentID)
         if record is not None:
             if (record.am_type == 1):
                 clock_in_time = str(record.clock_in_time).split(' ')[1]
@@ -39,6 +41,7 @@ def search_today_record():
                 'pm_type': record.pm_type,
                 'am_address': record.am_address,
                 'pm_address': record.pm_address,
+                'notice': notice
             }
         else:
             am_type = 0
@@ -54,5 +57,6 @@ def search_today_record():
                 'pm_type': pm_type,
                 'am_address': '',
                 'pm_address': '',
+                'notice': notice
             }
         return res

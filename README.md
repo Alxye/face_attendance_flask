@@ -14,3 +14,4 @@ flask ---> pymysql库--> sqlalchemy（ORM）==>flask_sqlalchemy ===>面向对象
 - 模型下载
   - 国内：链接：https://pan.baidu.com/s/1PROYJ0o7Lco3uFcdUBEONw?pwd=7cgk 提取码：7cgk 
   - 国际：https://drive.google.com/file/d/1kdeI8wkH6UfpznlIvIpjaixfbE2WQhSV/view?usp=share_link
+## ！

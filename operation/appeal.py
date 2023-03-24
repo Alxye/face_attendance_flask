@@ -76,5 +76,16 @@ class appeal_opration():
         res=AttendanceAppeal.query.filter_by(id=id).delete()
         db.session.commit()
         return jsonify(res)
-    def get_total_number(self):
-        return db.session.query(AttendanceAppeal).filter().count()
+    def get_total_number(self,did,id):
+        #return db.session.query(AttendanceAppeal).filter().count()
+        if id:
+            query = db.session().query(AttendanceAppeal)
+            query = query.join(Users, AttendanceAppeal.staff_id == Users.staff_id)
+            staff_list = query.filter_by(staff_id=id, department_id=did).count()
+            return staff_list
+        else:
+            query = db.session().query(AttendanceAppeal)
+            query = query.join(Users, AttendanceAppeal.staff_id == Users.staff_id)
+            staff_list = query.filter_by(department_id=did).count()
+            print('shuliang', staff_list)
+            return staff_list

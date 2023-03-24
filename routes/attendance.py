@@ -165,7 +165,7 @@ def update_info():
                         db.session.add(record)
                         db.session.commit()
                     else:
-                        res['code'] = 0
+                        res['code'] = 3
                 else:
                     start_second = int(clock_start.split(':')[0]) * 3600 + int(clock_start.split(':')[1]) * 60 + int(
                         clock_start.split(':')[2])
@@ -196,7 +196,7 @@ def update_info():
                         db.session.add(record)
                         db.session.commit()
                     else:
-                        res['code'] = 0
+                        res['code'] = 3
             else:
                 res['code'] = 0
         return res
@@ -219,10 +219,9 @@ def read():
     data = get_all(page_index, page_size, select_id, date, did)
     print(data)
 
-    if select_id == '':
-        total = data.__len__()
-    else:
-        total = data.__len__()
+
+    total = get_total_number(did,select_id)
+
     res = {
         "code": 200,
         "data": data,

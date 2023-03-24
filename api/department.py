@@ -20,6 +20,11 @@ def Query_department_attendance_time(departmentID,morning_flag):
     data = D_o._query_attendance_time(department_id=departmentID,morning_flag=morning_flag)
     return data
 
+def Query_department_notice(departmentID):
+    D_o = department_operation()
+    data = D_o._query_notice(department_id=departmentID)
+    return data
+
 def Query_department_id(departmentname):
     D_o = department_operation()
     data = D_o._query_departmentid_from_name(departmentname)

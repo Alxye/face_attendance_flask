@@ -22,7 +22,7 @@ def message_subscription():
             "template_id":template_id,
             # 要跳转的页面
             "page": "pages/main/main",
-            "miniprogram_state": 'developer',
+            "miniprogram_state": 'trial',
             # 模板消息对应的内容设置
             "data": {
                 # "thing1": {
@@ -58,7 +58,7 @@ def message_subscription():
             "template_id": template_id,
             # 要跳转的页面
             "page": "pages/main/main",
-            "miniprogram_state": 'developer',
+            "miniprogram_state": 'trial',
             # 模板消息对应的内容设置
             "data": {
                 # "thing1": {
@@ -113,7 +113,7 @@ def message_subscription_longtime():
             "template_id":template_id,
             # 要跳转的页面
             "page": "pages/main/main",
-            "miniprogram_state": 'developer',
+            "miniprogram_state": 'trial',
             # 模板消息对应的内容设置
             "data": {
                 # "thing1": {
@@ -149,7 +149,7 @@ def message_subscription_longtime():
             "template_id": template_id,
             # 要跳转的页面
             "page": "pages/main/main",
-            "miniprogram_state": 'developer',
+            "miniprogram_state": 'trial',
             # 模板消息对应的内容设置
             "data": {
                 # "thing1": {

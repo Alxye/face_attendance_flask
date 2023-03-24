@@ -42,10 +42,9 @@ def read():
     # data = get_all(page_index,page_size,select_id,did)
     data = get_all_by_department(page_index,page_size,select_id,did)
     # print(data)
-    if select_id == '':
-        total = data.__len__()
-    else:
-        total = data.__len__()
+
+    total = get_total_number(did,select_id)
+
     res = {
         "code": 200,
         "data": data,

@@ -22,3 +22,7 @@ class department_operation():
     def _query_attendance_time2(self, department_id):
         data = Department.query.filter_by(department_id=department_id).first()
         return data.clock_in_start, data.clock_in_end, data.clock_out_start, data.clock_out_end
+
+    def _query_notice(self, department_id):
+        data = Department.query.filter_by(department_id=department_id).first()
+        return data.notice

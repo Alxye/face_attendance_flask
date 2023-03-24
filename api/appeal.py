@@ -69,7 +69,7 @@ def delete_appeal(id):
     data = s_o.delete(id)
 
     return data
-def get_total_number():
+def get_total_number(did,id):
     s_o = appeal_opration()
-    return s_o.get_total_number()
+    return s_o.get_total_number(did,id)
 
