@@ -6,13 +6,12 @@ import base64
 
 from flask_apscheduler import APScheduler
 # from apscheduler.schedulers.background import BackgroundScheduler
-from flask import Flask,request
+from flask import Flask, request
 
 import config
 from config import app
 
 from my_trigger import app
-# app = Flask(__name__)
 import datetime
 import cv2
 import numpy as np
@@ -30,8 +29,6 @@ from routes.attendance import attendance
 from routes.staff import staff
 
 CORS(app, supports_credentials=True)
-# CORS(app, resources=r'/*')
-# app = Flask(__name__)
 
 # 蓝图
 app.register_blueprint(user, url_prefix="/user")
@@ -41,30 +38,18 @@ app.register_blueprint(staff, url_prefix="/staff")
 app.register_blueprint(attendance, url_prefix="/attendance")
 app.register_blueprint(appeal, url_prefix="/appeal")
 # 蓝图 wechat
-app.register_blueprint(message,url_prefix="/message")
-app.register_blueprint(my_attendance,url_prefix="/my_attendance")
-app.register_blueprint(my,url_prefix="/my")
-app.register_blueprint(my_approve,url_prefix="/my_approve")
-
-
+app.register_blueprint(message, url_prefix="/message")
+app.register_blueprint(my_attendance, url_prefix="/my_attendance")
+app.register_blueprint(my, url_prefix="/my")
+app.register_blueprint(my_approve, url_prefix="/my_approve")
 
 app.config['SECRET_KEY'] = config.SECRET_KEY
+
 
 @app.route('/')
 def ping():
     print("ping ok")
-    return "12322o232k"
-
-
-# @app.route('/get', methods=['POST'])
-# def get():
-#     print(request.get_data())
-#
-#     session['name']=request.values.get("name")
-#     session['age']=request.values.get("age")
-#
-#     # queryRes=base_query_admission()
-#     return json.dumps('ok', ensure_ascii=False)
+    return "ping ok"
 
 
 if __name__ == '__main__':

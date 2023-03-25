@@ -7,8 +7,6 @@ import config
 from models import user
 
 
-# from .. import common
-
 class Auth:
     @staticmethod
     def encode_auth_token(user_id, login_time):
