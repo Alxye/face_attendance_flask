@@ -1,4 +1,4 @@
-# face_attendance_flask
+# Face Attendance
 
 该仓库用于人脸考勤系统后端代码开发，技术：flask、faceNet、MtCNN
 
@@ -138,6 +138,6 @@ sudo systemctl status gunicorn.service
 # 设置开机启动
 sudo systemctl enable gunicorn.service
 ```
-若部署成功，网页输入 http:// 自己的服务器ip /  (http://101.132.152.202/ 将会重定位到http://101.132.152.202/#/login)
+若部署成功，网页输入 http:// 自己的服务器ip /  (http://101.132.152.202/ 将会重定位到 http://101.132.152.202/#/login)
 
 ![Image](https://github.com/Alxye/face_attendance_flask/raw/main/static/success.png)
