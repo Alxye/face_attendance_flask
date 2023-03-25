@@ -74,6 +74,8 @@ flask ---> pymysql库--> sqlalchemy（ORM）==>flask_sqlalchemy ===>面向对象
   - 2. 终端命令 `pip install -r (路径) /requirements.txt`
 - 全局环境安装requirement文件
   - 终端命令 `pip install -r (路径) /requirements.txt`
+
+![Image](https://github.com/Alxye/face_attendance_flask/raw/main/static/env-setup.png)
 ### 3、 nginx配置
 - 安装nginx
 - 对nginx进行配置，配置文件一般在`/etc/nginx/sites-available/default`
@@ -99,6 +101,9 @@ flask ---> pymysql库--> sqlalchemy（ORM）==>flask_sqlalchemy ===>面向对象
 - 安装gunicorn
   - 在全局环境下，在Flask根目录执行命令：`gunicorn -w 2 -b 0.0.0.0:5002 app:app`
   - 在虚拟环境下，激活虚拟环境在Flask根目录执行命令：`(虚拟环境目录)/bin/gunicorn -w 2 -b 0.0.0.0:5002 app:app`
+
+
+![Image](https://github.com/Alxye/face_attendance_flask/raw/main/static/gunicorn-exp.png)
 - 为gunicorn启动全局自启动服务  
 `创建："/etc/systemd/system/gunicorn.service"`
 ```
@@ -134,3 +139,5 @@ sudo systemctl status gunicorn.service
 sudo systemctl enable gunicorn.service
 ```
 若部署成功，网页输入 http:// 自己的服务器ip /  (http://101.132.152.202/ 将会重定位到http://101.132.152.202/#/login)
+
+![Image](https://github.com/Alxye/face_attendance_flask/raw/main/static/success.png)
