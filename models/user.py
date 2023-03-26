@@ -52,7 +52,6 @@ class Users(db.Model):
 
     # 将前端传来的明文 password转换为hash
     def set_password(self, password):
-        print(generate_password_hash(password))
         return generate_password_hash(password)
 
     # 将前端传来的明文 password转化后的hash和数据库里的hash比较

@@ -44,23 +44,6 @@ def User_id_for_faceinfo(staffID):
     data = u_o._id_faceinfo(staffID)
     return data
 
-# wechat ----------------------
-
-# def User_list():
-#     u_o = User_operation()
-#     data = u_o._all()
-#     # data（复杂对象）====> 数据
-#     data = Class_To_Data(data, u_o.__fields__, 0)
-#     return data
-#
-#
-# # def User_reg(kwargs):
-# #     u_o = User_operation()
-# #     data = u_o._reg(kwargs)
-# #     return data
-#
-# 1112 ----> 123456
-
 def User_list():
     u_o = User_opration()
     data = u_o._all()
@@ -95,20 +78,6 @@ def User_login2(name, pwd):
 
 
 def User_login(staff_id, password):
-    # user_op = User_operation()
-    # orig_data = user_op._login(employ_id)
-    # state = 0  # 无该管理员
-    # if orig_data is not None:
-    #     data = Class_To_Data(orig_data, user_op.__fields__, 1)
-    #     state = 1  # 有该管理员，但密码错误
-    #     if password == data['password']:
-    #         state = 2  # 密码正确
-    #         login_time = int(time.time())
-    #         orig_data['login_time'] = login_time
-    #         user_op._update()
-    #         token = self.encode_auth_token(userInfo.id, login_time)
-    # return state
-    # userInfo = Users.query.filter_by(staff_id=staff_id, type=2).first()
     userInfo = Users.query.filter_by(staff_id=staff_id).first()
     if userInfo is None:
         return 0, -1, ''
