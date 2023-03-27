@@ -14,7 +14,8 @@ class Department(db.Model):
                   'clock_in_end',
                   'clock_out_end',
                   'longitude',
-                  'latitude']
+                  'latitude',
+                  'address']
     department_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     department_name = db.Column(db.String(45), nullable=False)
     notice = db.Column(db.String(45), nullable=False)
@@ -24,18 +25,23 @@ class Department(db.Model):
     clock_out_end = db.Column(db.Time, nullable=False)
     longitude = db.Column(db.Float, nullable=False)
     latitude = db.Column(db.Float, nullable=False)
+    address = db.Column(db.String(45), nullable=False)
 
     def __repr__(self):
         return '<Department %s>' % self.department_id
 
     # 用于新建新部门用？
-    def __init__(self, department_name, notice='',clock_in_start="00:00:00",clock_in_end='23:59:59',clock_out_start='00:00:00',clock_out_end='23:59:59'):
+    def __init__(self, department_name, notice='', clock_in_start="00:00:00", clock_in_end='23:59:59',
+                 clock_out_start='00:00:00', clock_out_end='23:59:59', longitude=0.0, latitude=0.0, address=""):
         self.department_name = department_name
         self.notice = notice
         self.clock_in_start = clock_in_start
         self.clock_in_end = clock_in_end
         self.clock_out_start = clock_out_start
         self.clock_out_end = clock_out_end
+        self.longitude = longitude
+        self.latitude = latitude
+        self.address = address
 
     # def set_password(self, password):
     #     return generate_password_hash(password)
@@ -56,7 +62,6 @@ class Department(db.Model):
 
     def findWithName(self, department_name):
         return self.query.filter_by(department_name=department_name).first()
-
 
     def add(self, department):
         db.session.add(department)

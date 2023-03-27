@@ -15,34 +15,40 @@ def Department_all():
     return data
 
 
-def Query_department_attendance_time(departmentID,morning_flag):
+def Query_department_attendance_time(departmentID, morning_flag):
     D_o = department_operation()
-    data = D_o._query_attendance_time(department_id=departmentID,morning_flag=morning_flag)
+    data = D_o._query_attendance_time(department_id=departmentID, morning_flag=morning_flag)
     return data
+
 
 def Query_department_notice(departmentID):
     D_o = department_operation()
     data = D_o._query_notice(department_id=departmentID)
     return data
 
+
 def Query_department_id(departmentname):
     D_o = department_operation()
     data = D_o._query_departmentid_from_name(departmentname)
     return data
+
 
 def Query_department_attendance_time2(departmentID):
     D_o = department_operation()
     data = D_o._query_attendance_time2(department_id=departmentID)
     return data
 
+
 def Query_department_location(departmentID):
     D_o = department_operation()
     data = D_o._query_location(department_id=departmentID)
     return data
 
+
 # wechat -----------------------
 
-def Update(department_id, department_name, notice, clock_in_start, clock_in_end, clock_out_start, clock_out_end):
+def Update(department_id, department_name, notice, clock_in_start, clock_in_end, clock_out_start, clock_out_end,
+           longitude, latitude, address):
     depInfo = Department.query.filter_by(department_id=department_id).first()
     if depInfo is None:
         return False
@@ -53,6 +59,9 @@ def Update(department_id, department_name, notice, clock_in_start, clock_in_end,
         depInfo.clock_in_end = clock_in_end
         depInfo.clock_out_start = clock_out_start
         depInfo.clock_out_end = clock_out_end
+        depInfo.longitude = longitude
+        depInfo.latitude = latitude
+        depInfo.address = address
         res = Department.update(depInfo)
         print(res)
         return True if res is None else False
@@ -64,6 +73,7 @@ def Get_departmentName(department_id):
         return ''
     else:
         return departmentInfo.department_name
+
 
 def Get_departmentId(department_name):
     departmentInfo = Department.findWithName(Department, department_name)
@@ -84,6 +94,7 @@ def Is_departmentExist(department_name):
 def Count_AppealStaff(department_id):
     return Users.query.filter_by(department_id=department_id, type=0).count()
 
+
 def Count_DepartmentStaff(department_id):
     return Users.query.filter_by(department_id=department_id).count()
 
@@ -103,6 +114,7 @@ def Add_department(name, notice):
         return True
     else:
         return False
+
 
 #
 # def Delete_department(department_id):
@@ -141,7 +153,10 @@ def Get_departmentInfo():
                 'clock_out_start': item.clock_out_start.isoformat(timespec='auto') if type(
                     item.clock_out_start) is datetime.time else '00:00:00',
                 'clock_out_end': item.clock_out_end.isoformat(timespec='auto') if type(
-                    item.clock_out_end) is datetime.time else '23:59:59'
+                    item.clock_out_end) is datetime.time else '23:59:59',
+                'longitude': item.longitude,
+                'latitude': item.latitude,
+                'address': item.address
             }
         })
         i += 1

@@ -3,16 +3,17 @@ from flask import Blueprint, request, jsonify, json
 from api.department import *
 import time
 import json
-department = Blueprint('department', __name__)
 
+department = Blueprint('department', __name__)
 
 
 @department.route('/', methods=['GET'])
 def ping():
     return 'department ok!'
 
+
 # wechat----------
-@department.route('/all',methods=['GET','POST'])
+@department.route('/all', methods=['GET', 'POST'])
 def department_search():
     if request.method == 'POST':
         department_list = Department_all()
@@ -25,17 +26,19 @@ def department_search():
         }
         return res
 
-@department.route('/location_get',methods=['GET','POST'])
+
+@department.route('/location_get', methods=['GET', 'POST'])
 def department_location_get():
     if request.method == 'POST':
         departmentID = int(request.json.get('departmentID'))
-        longitude,latitude = Query_department_location(departmentID)
+        longitude, latitude = Query_department_location(departmentID)
         res = {
             'code': 1,
             'longitude': longitude,
             'latitude': latitude
         }
         return res
+
 
 # wechat----------
 
@@ -93,7 +96,7 @@ def add():
 def dashboard_card():
     data = json.loads(request.data)
     department_id = data['department_id']
-    print(">>>>>>>>>>",department_id)
+    print(">>>>>>>>>>", department_id)
     department_name = Get_departmentName(department_id)
     appealstaffcount = Count_AppealStaff(department_id)
     appealattendancecount = Count_AppealAttendance(department_id)
@@ -107,7 +110,7 @@ def dashboard_card():
         }
     }
 
-    print(">>>>>>>>>>",return_data)
+    print(">>>>>>>>>>", return_data)
 
     return jsonify(return_data)
 
@@ -118,13 +121,13 @@ def update():
     department_id = data['id']
     name = data['name']
     notice = data['notice']
+    longitude = data['longitude']
+    latitude = data['latitude']
+    address = data['address']
     clock_in_start = time.strptime("2023-01-01 " + data['clock_in_start'], "%Y-%m-%d %H:%M:%S")
     clock_in_end = time.strptime("2023-01-01 " + data['clock_in_end'], "%Y-%m-%d %H:%M:%S")
     clock_out_start = time.strptime("2023-01-01 " + data['clock_out_start'], "%Y-%m-%d %H:%M:%S")
     clock_out_end = time.strptime("2023-01-01 " + data['clock_out_end'], "%Y-%m-%d %H:%M:%S")
-    # clock_in_end = data['clock_in_end']
-    # clock_out_start = data['clock_out_start']
-    # clock_out_end = data['clock_out_end']
     print(Get_departmentName(department_id))
     print(name)
     if Get_departmentName(department_id) != name:
@@ -133,7 +136,8 @@ def update():
             code = 401
             msg = "不能更名为已有部门"
         else:
-            res = Update(department_id, name, notice, clock_in_start, clock_in_end, clock_out_start, clock_out_end)
+            res = Update(department_id, name, notice, clock_in_start, clock_in_end, clock_out_start, clock_out_end,
+                         longitude=longitude, latitude=latitude, address=address)
             if res:
                 code = 200
                 msg = "更新成功"
@@ -141,7 +145,8 @@ def update():
                 code = 401
                 msg = "更新失败"
     else:
-        res = Update(department_id, name, notice, clock_in_start, clock_in_end, clock_out_start, clock_out_end)
+        res = Update(department_id, name, notice, clock_in_start, clock_in_end, clock_out_start, clock_out_end,
+                     longitude=longitude, latitude=latitude, address=address)
         if res:
             code = 200
             msg = "更新成功"
@@ -159,7 +164,7 @@ def update():
 def delete():
     data = json.loads(request.data)
     department_id = data['id']
-    count=Count_DepartmentStaff(department_id)
+    count = Count_DepartmentStaff(department_id)
     if count is not 0:
         code = 401
         msg = "该部门尚有待审核的员工、管理员或正式员工"
