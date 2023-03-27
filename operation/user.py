@@ -40,8 +40,8 @@ class User_opration():
         print(user_list)
         return user_list
 
-    def _reg(self, username, staffID, departmentID, openid):
-        return Users(name=username, staff_id=staffID, department_id=departmentID, openid=openid, type=0)
+    def _reg(self, username, staffID, departmentID, openid, face_info):
+        return Users(name=username, staff_id=staffID, department_id=departmentID, openid=openid, type=0, face_info = face_info)
 
     def _search_openid(self, openid):
         user_list = Users.query.filter_by(openid=openid).first()

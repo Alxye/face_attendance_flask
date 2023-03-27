@@ -19,9 +19,9 @@ import jwt
 # wechat ----------------------
 
 
-def User_reg(username,staffID,departmentID,openid):
+def User_reg(username,staffID,departmentID,openid,face_info):
     u_o = User_opration()
-    data = u_o._reg(username,staffID,departmentID,openid)
+    data = u_o._reg(username,staffID,departmentID,openid,face_info)
     return data
 
 def User_search_userinfo(openid):

@@ -85,31 +85,20 @@ def user_wxlogin():
 @user.route('/register',methods=['GET','POST'])
 def user_register():
     if request.method == 'POST':
-        username = request.json.get('username')
-        staffID = int(request.json.get('staffID'))
-        departmentname = request.json.get('departmentname')
+        username = request.form.get('username')
+        staffID = int(request.form.get('staffID'))
+        departmentname = request.form.get('departmentname')
         departmentid = Query_department_id(departmentname)
-        openid = request.json.get('openid')
-        # print(openid)
-        new_user = User_reg(username,staffID,departmentid,openid)
-        db.session.add(new_user)
-        db.session.commit()
-        return {
-            'code': 1
-        }
-
-@user.route('/facerecord',methods=['GET','POST'])
-def user_facerecord():
-    if request.method == 'POST':
-        staffId = int(request.form.get('staffId'))
+        openid = request.form.get('openid')
         files = request.files.get('files')
         time_str = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
-        tmp_save_add = f'static/tmp/{staffId}_{time_str}.jpg'
+        tmp_save_add = f'static/tmp/{staffID}_{time_str}.jpg'
         files.save(tmp_save_add)
         res = extract(tmp_save_add)
         ans = {}
-        if(res['code']==1):
-            Users.query.filter_by(staff_id=staffId).update({"face_info": res['embedding']})
+        if (res['code'] == 1):
+            new_user = User_reg(username, staffID, departmentid, openid, res['embedding'])
+            db.session.add(new_user)
             db.session.commit()
             ans['state'] = 1
         else:

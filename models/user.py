@@ -26,7 +26,7 @@ class Users(db.Model):
         return '<User %s>' % self.staff_id
 
     # 用于新建
-    def __init__(self,staff_id, password='',department_id=0,type=0,name='new',age=0,reg_time='', openid=''):
+    def __init__(self,staff_id, password='',department_id=0,type=0,name='new',age=0,reg_time='', openid='',face_info=None):
         self.staff_id = staff_id
         self.password = self.set_password(password)
         self.department_id = department_id
@@ -35,7 +35,7 @@ class Users(db.Model):
         self.reg_time=datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         self.type = type
         self.openid = openid
-
+        self.face_info = face_info
     # 用于注册用？
     # def __init__(self, staff_id, password):
     #     self.staff_id = staff_id
