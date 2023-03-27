@@ -26,3 +26,6 @@ class department_operation():
     def _query_notice(self, department_id):
         data = Department.query.filter_by(department_id=department_id).first()
         return data.notice
+    def _query_location(self, department_id):
+        data = Department.query.filter_by(department_id=department_id).first()
+        return data.longitude, data.latitude

@@ -12,7 +12,9 @@ class Department(db.Model):
                   'clock_in_start',
                   'clock_out_start',
                   'clock_in_end',
-                  'clock_out_end']
+                  'clock_out_end',
+                  'longitude',
+                  'latitude']
     department_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     department_name = db.Column(db.String(45), nullable=False)
     notice = db.Column(db.String(45), nullable=False)
@@ -20,6 +22,8 @@ class Department(db.Model):
     clock_out_start = db.Column(db.Time, nullable=False)
     clock_in_end = db.Column(db.Time, nullable=False)
     clock_out_end = db.Column(db.Time, nullable=False)
+    longitude = db.Column(db.Float, nullable=False)
+    latitude = db.Column(db.Float, nullable=False)
 
     def __repr__(self):
         return '<Department %s>' % self.department_id

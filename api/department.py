@@ -34,6 +34,12 @@ def Query_department_attendance_time2(departmentID):
     D_o = department_operation()
     data = D_o._query_attendance_time2(department_id=departmentID)
     return data
+
+def Query_department_location(departmentID):
+    D_o = department_operation()
+    data = D_o._query_location(department_id=departmentID)
+    return data
+
 # wechat -----------------------
 
 def Update(department_id, department_name, notice, clock_in_start, clock_in_end, clock_out_start, clock_out_end):

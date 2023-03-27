@@ -24,6 +24,19 @@ def department_search():
             'list': lists
         }
         return res
+
+@department.route('/location_get',methods=['GET','POST'])
+def department_location_get():
+    if request.method == 'POST':
+        departmentID = int(request.json.get('departmentID'))
+        longitude,latitude = Query_department_location(departmentID)
+        res = {
+            'code': 1,
+            'longitude': longitude,
+            'latitude': latitude
+        }
+        return res
+
 # wechat----------
 
 @department.route('/info', methods=['GET'])
