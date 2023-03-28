@@ -51,9 +51,9 @@ def delete_attendance(id,date):
 
     return data
 
-def get_total_number(did,id):
+def get_total_number(did,id,date):
     s_o = attendance_opration()
-    return s_o.get_total_number(did,id)
+    return s_o.get_total_number(did,id,date)
 
 def get_attendance(did):
     s_o = attendance_opration()

@@ -220,7 +220,7 @@ def read():
     print(data)
 
 
-    total = get_total_number(did,select_id)
+    total = get_total_number(did,select_id,date)
 
     res = {
         "code": 200,
