@@ -95,18 +95,31 @@ class attendance_opration():
         db.session.commit()
         return jsonify(res)
 
-    def get_total_number(self, did,id):
-        if id:
-            query = db.session().query(attendance)
-            query = query.join(Users, attendance.staff_id == Users.staff_id)
-            staff_list = query.filter_by(staff_id=id, department_id=did).count()
-            return staff_list
+    def get_total_number(self, did,id,date):
+        if date:
+            if id:
+                query = db.session().query(attendance).filter_by(date=date)
+                query = query.join(Users, attendance.staff_id == Users.staff_id)
+                staff_list = query.filter_by(staff_id=id, department_id=did).count()
+                return staff_list
+            else:
+                query = db.session().query(attendance).filter_by(date=date)
+                query = query.join(Users, attendance.staff_id == Users.staff_id)
+                staff_list = query.filter_by(department_id=did).count()
+                print('shuliang', staff_list)
+                return staff_list
         else:
-            query = db.session().query(attendance)
-            query = query.join(Users, attendance.staff_id == Users.staff_id)
-            staff_list = query.filter_by(department_id=did).count()
-            print('shuliang', staff_list)
-            return staff_list
+            if id:
+                query = db.session().query(attendance)
+                query = query.join(Users, attendance.staff_id == Users.staff_id)
+                staff_list = query.filter_by(staff_id=id, department_id=did).count()
+                return staff_list
+            else:
+                query = db.session().query(attendance)
+                query = query.join(Users, attendance.staff_id == Users.staff_id)
+                staff_list = query.filter_by(department_id=did).count()
+                print('shuliang', staff_list)
+                return staff_list
 
 
     def get_attendanceByMonth(self, did):
