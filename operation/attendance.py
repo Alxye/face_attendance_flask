@@ -11,12 +11,15 @@ from models.user import Users
 
 import calendar
 
+
 # class
 class attendance_opration():
     def __init__(self):
         # self.__fields__ = ['staff_id', 'date', 'salary', 'am_type', 'pm_type', 'clock_in_time', 'clock_out_time']
-        self.__fields__ = ['clock_in_time', 'clock_out_time', 'am_type', 'pm_type', 'am_address', 'pm_address', 'salary',
-                       'staff_id', 'date']
+        self.__fields__ = ['clock_in_time', 'clock_out_time', 'am_type', 'pm_type', 'am_address', 'pm_address',
+                           'salary',
+                           'staff_id', 'date']
+
     # wechat-----------
     def _search_today_record(self, staffID, date):
         return attendance.query.filter_by(staff_id=staffID, date=date).first()
@@ -28,8 +31,8 @@ class attendance_opration():
     def _auto_insert_record(self, staffID, date):
         return attendance(am_type=0, pm_type=0, am_address="", pm_address="", salary=0.0, staff_id=staffID,
                           date=date)
-    # wechat-----------
 
+    # wechat-----------
 
     def _all(self, i, s, id, date, did):
         if date:
@@ -75,8 +78,18 @@ class attendance_opration():
             return True
 
     def update(self, staff_id, date, am_type, pm_type, ic, oc):
-        res = attendance.query.filter_by(staff_id=staff_id, date=date).update(
-            {"clock_in_time": ic, "clock_out_time": oc, "am_type": am_type, "pm_type": pm_type})
+        if ic == "" and oc != "":
+            res = attendance.query.filter_by(staff_id=staff_id, date=date).update(
+                {"clock_in_time": ic, "clock_out_time": oc, "am_type": am_type, "pm_type": pm_type})
+        elif ic != "" and oc == "":
+            res = attendance.query.filter_by(staff_id=staff_id, date=date).update(
+                {"clock_in_time": ic, "am_type": am_type, "pm_type": pm_type})
+        elif ic == "" and oc == "":
+            res = attendance.query.filter_by(staff_id=staff_id, date=date).update(
+                {"am_type": am_type, "pm_type": pm_type})
+        elif ic != "" and oc != "":
+            res = attendance.query.filter_by(staff_id=staff_id, date=date).update(
+                {"clock_in_time": ic, "clock_out_time": oc, "am_type": am_type, "pm_type": pm_type})
         db.session.commit()
         return jsonify(res)
 
@@ -95,7 +108,7 @@ class attendance_opration():
         db.session.commit()
         return jsonify(res)
 
-    def get_total_number(self, did,id,date):
+    def get_total_number(self, did, id, date):
         if date:
             if id:
                 query = db.session().query(attendance).filter_by(date=date)
@@ -120,7 +133,6 @@ class attendance_opration():
                 staff_list = query.filter_by(department_id=did).count()
                 print('shuliang', staff_list)
                 return staff_list
-
 
     def get_attendanceByMonth(self, did):
         now = datetime.datetime.now()
@@ -156,14 +168,14 @@ class attendance_opration():
 
         return data
 
-    def get_checkinByDay(self, did,month):
+    def get_checkinByDay(self, did, month):
         now = month
         # now = datetime.datetime.now()
         today_year_months = range(1, now.month)
         data = []
         monthRange = calendar.monthrange(now.year, now.month)
         print(monthRange)
-        for i in range(1, monthRange[1]+1):
+        for i in range(1, monthRange[1] + 1):
             query = db.session().query(attendance)
             query = query.join(Users, attendance.staff_id == Users.staff_id)
             d = query.filter(attendance.am_type == 1, extract('day', attendance.date) == i,
@@ -175,14 +187,14 @@ class attendance_opration():
 
         return data
 
-    def get_checkinByDay0(self, did,month):
+    def get_checkinByDay0(self, did, month):
         now = month
         # now = datetime.datetime.now()
         today_year_months = range(1, now.month)
         data = []
         monthRange = calendar.monthrange(now.year, now.month)
         print(monthRange)
-        for i in range(1, monthRange[1]+1):
+        for i in range(1, monthRange[1] + 1):
             query = db.session().query(attendance)
             query = query.join(Users, attendance.staff_id == Users.staff_id)
             d = query.filter(attendance.am_type == 0, extract('day', attendance.date) == i,
@@ -194,7 +206,7 @@ class attendance_opration():
 
         return data
 
-    def get_checkinByDay2(self, did,month):
+    def get_checkinByDay2(self, did, month):
 
         now = month
         # now = datetime.datetime.now()
@@ -203,7 +215,7 @@ class attendance_opration():
         data = []
         monthRange = calendar.monthrange(now.year, now.month)
         print(monthRange)
-        for i in range(1, monthRange[1]+1):
+        for i in range(1, monthRange[1] + 1):
             query = db.session().query(attendance)
             query = query.join(Users, attendance.staff_id == Users.staff_id)
             d = query.filter(attendance.am_type == 2, extract('day', attendance.date) == i,
@@ -215,14 +227,14 @@ class attendance_opration():
 
         return data
 
-    def checkoutByDay1(self, did,month):
+    def checkoutByDay1(self, did, month):
         now = month
         today_year_months = range(1, now.month)
         data = []
         monthRange = calendar.monthrange(now.year, now.month)
         print(monthRange)
         for i in range(1, monthRange[1] + 1):
-        # for i in range(1, now.day):
+            # for i in range(1, now.day):
             query = db.session().query(attendance)
             query = query.join(Users, attendance.staff_id == Users.staff_id)
             d = query.filter(attendance.pm_type == 1, extract('day', attendance.date) == i,
@@ -234,7 +246,7 @@ class attendance_opration():
 
         return data
 
-    def checkoutByDay0(self, did,month):
+    def checkoutByDay0(self, did, month):
         now = month
         today_year_months = range(1, now.month)
         data = []
@@ -252,7 +264,7 @@ class attendance_opration():
 
         return data
 
-    def checkoutByDay2(self, did,month):
+    def checkoutByDay2(self, did, month):
         now = month
         today_year_months = range(1, now.month)
         data = []
