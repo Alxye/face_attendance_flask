@@ -8,6 +8,7 @@ from config import db_init as db
 from models.attendance import Attendance as attendance
 # from models.staff import staffs
 from models.user import Users
+from sqlalchemy import desc
 
 import calendar
 
@@ -39,21 +40,21 @@ class attendance_opration():
             if id:
                 query = db.session().query(attendance).filter_by(date=date)
                 query = query.join(Users, attendance.staff_id == Users.staff_id)
-                staff_list = query.filter_by(staff_id=id, department_id=did).offset((i - 1) * s).limit(s).all()
+                staff_list = query.filter_by(staff_id=id, department_id=did).order_by(desc(attendance.date)).offset((i - 1) * s).limit(s).all()
             else:
                 query = db.session().query(attendance).filter_by(date=date)
                 query = query.join(Users, attendance.staff_id == Users.staff_id)
-                staff_list = query.filter_by(department_id=did).offset((i - 1) * s).limit(s).all()
+                staff_list = query.filter_by(department_id=did).order_by(desc(attendance.date)).offset((i - 1) * s).limit(s).all()
         else:
             if id:
                 # staff_list = attendance.query.filter_by(staff_id=id).offset((i - 1) * s).limit(s).all()
                 query = db.session().query(attendance)
                 query = query.join(Users, attendance.staff_id == Users.staff_id)
-                staff_list = query.filter_by(staff_id=id, department_id=did).offset((i - 1) * s).limit(s).all()
+                staff_list = query.filter_by(staff_id=id, department_id=did).order_by(desc(attendance.date)).offset((i - 1) * s).limit(s).all()
             else:
                 query = db.session().query(attendance)
                 query = query.join(Users, attendance.staff_id == Users.staff_id)
-                staff_list = query.filter_by(department_id=did).offset((i - 1) * s).limit(s).all()
+                staff_list = query.filter_by(department_id=did).order_by(desc(attendance.date)).offset((i - 1) * s).limit(s).all()
         # print(staff_list)
         return staff_list
 
