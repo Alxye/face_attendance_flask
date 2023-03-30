@@ -26,7 +26,7 @@ class Users(db.Model):
         return '<User %s>' % self.staff_id
 
     # 用于新建
-    def __init__(self,staff_id, password='',department_id=0,type=0,name='new',age=0,reg_time='', openid='',face_info=None):
+    def __init__(self,staff_id, password='123456',department_id=0,type=0,name='new',age=0,reg_time='', openid='',face_info=None):
         self.staff_id = staff_id
         self.password = self.set_password(password)
         self.department_id = department_id
