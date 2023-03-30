@@ -39,6 +39,20 @@ def department_location_get():
         }
         return res
 
+@department.route('/time_get', methods=['GET', 'POST'])
+def department_location_get():
+    if request.method == 'POST':
+        departmentID = int(request.json.get('departmentID'))
+        st1, ed1, st2, ed2 = Query_department_attendance_time2(departmentID)
+        res = {
+            'code': 1,
+            'st1': st1,
+            'ed1': ed1,
+            'st2': st2,
+            'ed2': ed2
+        }
+        return res
+
 
 # wechat----------
 
