@@ -364,7 +364,8 @@ def get_excel():
     data = json.loads(request.data)
     id = data['did']
     date = data['date']
-    data = excel(id, date)
+    staff_id=data['input']
+    data = excel(id, date,staff_id)
     df = pd.DataFrame(data)
     df.to_excel("demo.xlsx", index=False)
     res = {
