@@ -40,7 +40,7 @@ def department_location_get():
         return res
 
 @department.route('/time_get', methods=['GET', 'POST'])
-def department_location_get():
+def department_time_get():
     if request.method == 'POST':
         departmentID = int(request.json.get('departmentID'))
         st1, ed1, st2, ed2 = Query_department_attendance_time2(departmentID)
