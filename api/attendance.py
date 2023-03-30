@@ -86,9 +86,9 @@ def get_attend(did):
     s_o = attendance_opration()
     return s_o.get_attendanceByDay(did)
 
-def excel(did,date):
+def excel(did,date,staff_id):
     a_o = attendance_opration()
-    data = a_o.get_alldata(did,date)
+    data = a_o.get_alldata(did,date,staff_id)
     # data（复杂对象）====> 数据
     data = Class_To_Data(data, a_o.__fields__, 0)
 
