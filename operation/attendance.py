@@ -283,12 +283,22 @@ class attendance_opration():
 
         return data
 
-    def get_alldata(self, did, date):
-        if date:
-            query = db.session().query(attendance).filter_by(date=date)
-            query = query.join(Users, attendance.staff_id == Users.staff_id)
-            return query.filter(Users.department_id == did).all()
+    def get_alldata(self, did, date,staff_id):
+        if staff_id:
+            if date:
+                query = db.session().query(attendance).filter_by(date=date)
+                query = query.join(staffs, attendance.staff_id == staffs.staff_id)
+                return query.filter(attendance.staff_id==staff_id,staffs.department_id == did).all()
+            else:
+                query = db.session().query(attendance).filter_by()
+                query = query.join(staffs, attendance.staff_id == staffs.staff_id)
+                return query.filter(attendance.staff_id==staff_id,staffs.department_id == did).all()
         else:
-            query = db.session().query(attendance).filter_by()
-            query = query.join(Users, attendance.staff_id == Users.staff_id)
-            return query.filter(Users.department_id == did).all()
+            if date:
+                query = db.session().query(attendance).filter_by(date=date)
+                query = query.join(staffs, attendance.staff_id == staffs.staff_id)
+                return query.filter(staffs.department_id == did).all()
+            else:
+                query = db.session().query(attendance).filter_by()
+                query = query.join(staffs, attendance.staff_id == staffs.staff_id)
+                return query.filter(staffs.department_id == did).all()
