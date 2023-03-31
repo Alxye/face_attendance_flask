@@ -44,6 +44,10 @@ def department_time_get():
     if request.method == 'POST':
         departmentID = int(request.json.get('departmentID'))
         st1, ed1, st2, ed2 = Query_department_attendance_time2(departmentID)
+        st1 = str(st1)
+        ed1 = str(ed1)
+        st2 = str(st2)
+        ed2 = str(ed2)
         res = {
             'code': 1,
             'st1': st1,
